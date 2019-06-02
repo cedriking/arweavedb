@@ -1,8 +1,8 @@
-export interface ArweaveTransaction {
+export interface IArweaveTransaction {
   id: string;
   last_tx: string;
   owner: string;
-  tags?: {[key: string]: string}[],
+  tags?: Array<{[key: string]: string}>,
   target?: string;
   quantity?: string;
   data?: string;

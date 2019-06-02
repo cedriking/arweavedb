@@ -1,5 +1,4 @@
 import {ArweaveDB} from "../index";
-import {ArweaveTransaction} from "../models";
 
 const arweaveDB = new ArweaveDB(__dirname);
 

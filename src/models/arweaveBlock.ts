@@ -1,4 +1,4 @@
-export interface ArweaveBlock {
+export interface IArweaveBlock {
   nonce: string;
   previous_block: string;
   timestamp: number;
@@ -10,7 +10,7 @@ export interface ArweaveBlock {
   txs: string[];
   wallet_list: string;
   reward_addr: string;
-  tags: {[key: string]: string}[];
+  tags: Array<{[key: string]: string}>;
   reward_pool: number;
   weave_size: number;
   block_size: number;

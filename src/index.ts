@@ -1,94 +1,95 @@
-import * as fs from 'fs';
 import * as fg from 'fast-glob';
-import {ArweaveBlock, ArweaveInfo, ArweaveTransaction} from "./models";
+import * as fs from 'fs';
+import {IArweaveBlock, IArweaveTransaction} from "./models";
 
 export class ArweaveDB {
-    private _blocksCacheById: Map<string, ArweaveBlock> = new Map();
-    private _blocksCacheByHeight: Map<number, ArweaveBlock> = new Map();
-    private _transactionsCacheById: Map<string, ArweaveTransaction> = new Map();
+    private blocksCacheById: Map<string, IArweaveBlock> = new Map();
+    private blocksCacheByHeight: Map<number, IArweaveBlock> = new Map();
+    private transactionsCacheById: Map<string, IArweaveTransaction> = new Map();
 
-    private _blocksFolder: string = 'blocks';
-    private _transactionsFolder: string = 'txs';
+    private blocksFolder: string = 'blocks';
+    private transactionsFolder: string = 'txs';
 
-    private _triggers: Map<string, Function[]> = new Map();
+    private path = '';
 
-    private _path = '';
     constructor(path: string = '') {
-        this._path = path;
-        this._blocksFolder = `${path}/${this._blocksFolder}`;
-        this._transactionsFolder = `${path}/${this._transactionsFolder}`;
+        this.path = path;
+        this.blocksFolder = `${path}/${this.blocksFolder}`;
+        this.transactionsFolder = `${path}/${this.transactionsFolder}`;
     }
 
-    async getTransactionById(transactionId: string) {
-        if(this._transactionsCacheById.has(transactionId)) {
-            return this._transactionsCacheById.get(transactionId);
+    public async getTransactionById(transactionId: string) {
+        if(this.transactionsCacheById.has(transactionId)) {
+            return this.transactionsCacheById.get(transactionId);
         }
 
-        if(fs.existsSync(`${this._transactionsFolder}/${transactionId}.json`)) {
-            const transaction: ArweaveTransaction = JSON.parse(fs.readFileSync(`${this._transactionsFolder}/${transactionId}.json`, {encoding: 'utf8'}));
-            this._transactionsCacheById.set(transactionId, transaction);
+        if(fs.existsSync(`${this.transactionsFolder}/${transactionId}.json`)) {
+            const transaction: IArweaveTransaction = JSON.parse(fs.readFileSync(`${this.transactionsFolder}/${transactionId}.json`, {encoding: 'utf8'}));
+            this.transactionsCacheById.set(transactionId, transaction);
             return transaction;
         }
 
         return false;
     }
 
-    async getBlockById(blockId: string) {
-        if(this._blocksCacheById.has(blockId)) {
-            return this._blocksCacheById.get(blockId);
+    public async getBlockById(blockId: string) {
+        if(this.blocksCacheById.has(blockId)) {
+            return this.blocksCacheById.get(blockId);
         }
 
-        const files: string[] = await fg(`${this._blocksFolder}/*${blockId}.json`);
+        const files: string[] = await fg(`${this.blocksFolder}/*${blockId}.json`);
         if(files.length) {
-            const block: ArweaveBlock = JSON.parse(fs.readFileSync(files[0], {encoding: 'utf8'}));
+            const block: IArweaveBlock = JSON.parse(fs.readFileSync(files[0], {encoding: 'utf8'}));
 
-            this._blocksCacheByHeight.set(block.height, block);
-            this._blocksCacheById.set(blockId, block);
+            this.blocksCacheByHeight.set(block.height, block);
+            this.blocksCacheById.set(blockId, block);
             return block;
         }
 
         return false;
     }
 
-    async getBlockByHeight(height: number) {
+    public async getBlockByHeight(height: number) {
         if(height < 0) {
             return false;
         }
 
-        if(this._blocksCacheByHeight.has(height)) {
-            return this._blocksCacheByHeight.get(height);
+        if(this.blocksCacheByHeight.has(height)) {
+            return this.blocksCacheByHeight.get(height);
         }
 
-        const files: string[] = await fg(`${this._blocksFolder}/${height}_*.json`);
+        const files: string[] = await fg(`${this.blocksFolder}/${height}_*.json`);
         if(files.length) {
-            const block: ArweaveBlock = JSON.parse(await fs.readFileSync(files[0], {encoding: 'utf8'}));
+            const block: IArweaveBlock = JSON.parse(await fs.readFileSync(files[0], {encoding: 'utf8'}));
 
-            this._blocksCacheById.set(block.indep_hash, block);
-            this._blocksCacheByHeight.set(height, block);
+            this.blocksCacheById.set(block.indep_hash, block);
+            this.blocksCacheByHeight.set(height, block);
             return block;
         }
 
         return false;
     }
 
-    async addTransaction(transaction: ArweaveTransaction) {
+    public async addTransaction(transaction: IArweaveTransaction) {
         try {
-            !fs.existsSync(this._transactionsFolder) && fs.mkdirSync(this._transactionsFolder);
-            await fs.promises.writeFile(`${this._transactionsFolder}/${transaction.id}.json`, JSON.stringify(transaction));
+            if(!fs.existsSync(this.transactionsFolder)) {
+                fs.mkdirSync(this.transactionsFolder);
+            }
+            await fs.promises.writeFile(`${this.transactionsFolder}/${transaction.id}.json`, JSON.stringify(transaction));
         } catch (e) {
-            console.error(e);
             return false;
         }
 
         return true;
     }
 
-    async addBlock(block: ArweaveBlock) {
+    public async addBlock(block: IArweaveBlock) {
         try {
-            !fs.existsSync(this._blocksFolder) && fs.mkdirSync(this._blocksFolder);
-            await fs.promises.writeFile(`${this._blocksFolder}/${block.height}_${block.indep_hash}.json`, JSON.stringify(block));
+            if(!fs.existsSync(this.blocksFolder)) {
+                fs.mkdirSync(this.blocksFolder);
+            }
+            await fs.promises.writeFile(`${this.blocksFolder}/${block.height}_${block.indep_hash}.json`, JSON.stringify(block));
         } catch (e) {
-            console.error(e);
             return false;
         }
 

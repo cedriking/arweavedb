@@ -1,4 +1,4 @@
-export interface ArweaveInfo {
+export interface IArweaveInfo {
   network: string;
   version: number;
   release: number;
