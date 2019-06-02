@@ -1,2 +1,4 @@
 node_modules
 /lib
+/src/__tests__/blocks
+/src/__tests__/txs
