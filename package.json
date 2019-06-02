@@ -20,8 +20,18 @@
     "blockchain",
     "database"
   ],
-  "author": "Zeus",
-  "license": "ISC",
+  "author": {
+    "name": "GoldZeus",
+    "email": "zeus.github@tryninja.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoldZeus/arweavedb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GoldZeus/arweavedb/issues"
+  },
+  "license": "GPL-3.0",
   "files": [
     "lib/**/*"
   ],
