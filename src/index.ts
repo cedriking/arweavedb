@@ -7,8 +7,8 @@ export class ArweaveDB {
   private blocksCacheByHeight: Map<number, IArweaveBlock> = new Map();
   private transactionsCacheById: Map<string, IArweaveTransaction> = new Map();
 
-  private blocksFolder: string = 'blocks';
-  private transactionsFolder: string = 'txs';
+  private readonly blocksFolder: string = 'blocks';
+  private readonly transactionsFolder: string = 'txs';
 
   private path = '';
 
@@ -18,7 +18,7 @@ export class ArweaveDB {
     this.transactionsFolder = `${path}/${this.transactionsFolder}`;
   }
 
-  public async getTransactionById(transactionId: string) {
+  public async getTransactionById(transactionId: string): Promise<IArweaveTransaction> {
     if (this.transactionsCacheById.has(transactionId)) {
       return this.transactionsCacheById.get(transactionId);
     }
@@ -31,10 +31,10 @@ export class ArweaveDB {
       return transaction;
     }
 
-    return false;
+    return null;
   }
 
-  public async getBlockById(blockId: string) {
+  public async getBlockById(blockId: string): Promise<IArweaveBlock> {
     if (this.blocksCacheById.has(blockId)) {
       return this.blocksCacheById.get(blockId);
     }
@@ -48,12 +48,12 @@ export class ArweaveDB {
       return block;
     }
 
-    return false;
+    return null;
   }
 
-  public async getBlockByHeight(height: number) {
+  public async getBlockByHeight(height: number): Promise<IArweaveBlock> {
     if (height < 0) {
-      return false;
+      return null;
     }
 
     if (this.blocksCacheByHeight.has(height)) {
@@ -69,10 +69,10 @@ export class ArweaveDB {
       return block;
     }
 
-    return false;
+    return null;
   }
 
-  public async addTransaction(transaction: IArweaveTransaction) {
+  public async addTransaction(transaction: IArweaveTransaction): Promise<boolean> {
     try {
       if (!fs.existsSync(this.transactionsFolder)) {
         fs.mkdirSync(this.transactionsFolder);
@@ -85,7 +85,7 @@ export class ArweaveDB {
     return true;
   }
 
-  public async addBlock(block: IArweaveBlock) {
+  public async addBlock(block: IArweaveBlock): Promise<boolean> {
     try {
       if (!fs.existsSync(this.blocksFolder)) {
         fs.mkdirSync(this.blocksFolder);

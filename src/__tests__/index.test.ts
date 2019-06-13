@@ -1,4 +1,5 @@
 import { ArweaveDB } from '../index';
+import {IArweaveBlock, IArweaveTransaction} from "../models";
 
 const arweaveDB = new ArweaveDB(__dirname);
 
@@ -6,20 +7,20 @@ test('Is Class ArweaveDB', () => {
   expect(arweaveDB).toBeInstanceOf(ArweaveDB);
 });
 
-/** Transactions **/
+/*** Transactions ***/
 test('Add a Transaction', async () => {
-  const tx = {
+  const tx: IArweaveTransaction = {
+    data: 'R2l0IEdvb2Q',
     id: 'vaJOh_TzVSoEgbgDyKz6ABzd_wt2-ouBTe0gA1F3oMY',
     last_tx: '',
     owner:
-      'pOroELdvJ7uzhtuqm6ACzrzJCx2FQcBL8UKiJIoYT_3kibFK-tarNAobO7GudmYBDBBwQMerJhv84iE0aNyAb-pisdkZ5iAOe6IxePGavAlXVVOLwOoG3IbnrSworaCokNmlmlI3_RzZRJtUOIC41i5KnllaHMpPBReEXrT3pjvBzJZktkjyYORu_PU3FvjYmEsQ8JZVyeSzMilr14_4QWJp3_PkLFqflZ_TAbYALB9326YKRzCzRXYrezrG8aw6LVmN4CIKyIjpVsMfcB7axjbRi23g0r66GNURZmQDvKeFafHzU8sNUIMVkQTwe8ga8jKEzpg85QxvkbZe6_BG5fmHbPx4WFdJUiWY1kJGVrVWtJMtbloCuIASszKyebyHaYhNoVM4jBVObyrlBOajKRm3XBI_jjUVCDuAxgR-nIqmkJxjVmae9d0xVgOCGDZUmw94LzGnwrHv2pFUV1Zj_jcxVw4wUTit4Ur08Df_CCob5YXbbR60Bya_dkC_WEnR4vLFYXYZ0Oc9NLm3Inz31F_o04OFtephbUpCZLO2ctk3nHOXJBsin-U1oxsvEfZb9W8NQjL9WD3c9xL5z7iFVdixvBxj2xPbGl1qvt_Rbr9xdlwwobsTZfn8SSjhvDUf4Qw0hssvYHfeVFgGbpkUPhz1ptr8XrDOm_phWd0at88',
-    tags: [],
-    target: '',
+        'pOroELdvJ7uzhtuqm6ACzrzJCx2FQcBL8UKiJIoYT_3kibFK-tarNAobO7GudmYBDBBwQMerJhv84iE0aNyAb-pisdkZ5iAOe6IxePGavAlXVVOLwOoG3IbnrSworaCokNmlmlI3_RzZRJtUOIC41i5KnllaHMpPBReEXrT3pjvBzJZktkjyYORu_PU3FvjYmEsQ8JZVyeSzMilr14_4QWJp3_PkLFqflZ_TAbYALB9326YKRzCzRXYrezrG8aw6LVmN4CIKyIjpVsMfcB7axjbRi23g0r66GNURZmQDvKeFafHzU8sNUIMVkQTwe8ga8jKEzpg85QxvkbZe6_BG5fmHbPx4WFdJUiWY1kJGVrVWtJMtbloCuIASszKyebyHaYhNoVM4jBVObyrlBOajKRm3XBI_jjUVCDuAxgR-nIqmkJxjVmae9d0xVgOCGDZUmw94LzGnwrHv2pFUV1Zj_jcxVw4wUTit4Ur08Df_CCob5YXbbR60Bya_dkC_WEnR4vLFYXYZ0Oc9NLm3Inz31F_o04OFtephbUpCZLO2ctk3nHOXJBsin-U1oxsvEfZb9W8NQjL9WD3c9xL5z7iFVdixvBxj2xPbGl1qvt_Rbr9xdlwwobsTZfn8SSjhvDUf4Qw0hssvYHfeVFgGbpkUPhz1ptr8XrDOm_phWd0at88',
     quantity: '0',
-    data: 'R2l0IEdvb2Q',
     reward: '0',
     signature:
-      'jE0ubYO4Wom3rFK6WFkBArQJvYEOCSTVBQTSpmi70LyvhbMLIgG1rRskP4YSDBNNJ2eNfgpJLLDq84wPLhGer9nGsAfz9J_DqkOerR7U6N0RJSek1GvxR4Xu0DnPoNsLHW3rfyJdeo5uw7wp29fFpoxbqBzOERPnWdvQ8fIvdun9YtGE4Beun6i-XQYPI6w9r7pIMJUmt1Vlu67pl6WHXTocslRAxfDsJZLOPUqxQhGLAO0oppn4GL_-hmN2ciJb5UR5c__jYhS4_E2Cf6gyMhrfvKKAFXC43lH0jGSTy9OGVjsSmbIxdVbZX6Z3wPQi-A6Hoing9De8utvImMjeqczls6dHcqehV40VBRBVgyu3csctQtSDzQq2Fo1x-BPcDAP0bVSzbS4bpNVTk5C78YxjUbuNLk6dpv43WddlxGYC3Hk1XE3psreUZmDoin_juYg5tYO25Jk3PQZfajX_KbupkHfk22LYNqas9Rp_4m3isHHhuwd4JsMqESvtTrW8Dmcy0wFhyILCfcXbTbIY_Tyy-KkelWhxmoGd9VOjNbe1WhmUKe9qrA85JJ_OLW0jOmj_h3gnZklBWs4WrPDFfsHQbZsS6mrfYqKHcFvnnj0eC20wPev8_XEtMYN_OTQDVwTGWaUXELDT0yK02dTj7K5QX_3BcQnsxIYNj0lVSM0',
+        'jE0ubYO4Wom3rFK6WFkBArQJvYEOCSTVBQTSpmi70LyvhbMLIgG1rRskP4YSDBNNJ2eNfgpJLLDq84wPLhGer9nGsAfz9J_DqkOerR7U6N0RJSek1GvxR4Xu0DnPoNsLHW3rfyJdeo5uw7wp29fFpoxbqBzOERPnWdvQ8fIvdun9YtGE4Beun6i-XQYPI6w9r7pIMJUmt1Vlu67pl6WHXTocslRAxfDsJZLOPUqxQhGLAO0oppn4GL_-hmN2ciJb5UR5c__jYhS4_E2Cf6gyMhrfvKKAFXC43lH0jGSTy9OGVjsSmbIxdVbZX6Z3wPQi-A6Hoing9De8utvImMjeqczls6dHcqehV40VBRBVgyu3csctQtSDzQq2Fo1x-BPcDAP0bVSzbS4bpNVTk5C78YxjUbuNLk6dpv43WddlxGYC3Hk1XE3psreUZmDoin_juYg5tYO25Jk3PQZfajX_KbupkHfk22LYNqas9Rp_4m3isHHhuwd4JsMqESvtTrW8Dmcy0wFhyILCfcXbTbIY_Tyy-KkelWhxmoGd9VOjNbe1WhmUKe9qrA85JJ_OLW0jOmj_h3gnZklBWs4WrPDFfsHQbZsS6mrfYqKHcFvnnj0eC20wPev8_XEtMYN_OTQDVwTGWaUXELDT0yK02dTj7K5QX_3BcQnsxIYNj0lVSM0',
+    tags: [],
+    target: ''
   };
   expect(await arweaveDB.addTransaction(tx)).toBe(true);
 });
@@ -27,36 +28,40 @@ test('Add a Transaction', async () => {
 test('Get Valid Transaction', async () => {
   const tx = await arweaveDB.getTransactionById('vaJOh_TzVSoEgbgDyKz6ABzd_wt2-ouBTe0gA1F3oMY');
   expect(tx).toStrictEqual({
+    data: 'R2l0IEdvb2Q',
     id: 'vaJOh_TzVSoEgbgDyKz6ABzd_wt2-ouBTe0gA1F3oMY',
     last_tx: '',
     owner:
-      'pOroELdvJ7uzhtuqm6ACzrzJCx2FQcBL8UKiJIoYT_3kibFK-tarNAobO7GudmYBDBBwQMerJhv84iE0aNyAb-pisdkZ5iAOe6IxePGavAlXVVOLwOoG3IbnrSworaCokNmlmlI3_RzZRJtUOIC41i5KnllaHMpPBReEXrT3pjvBzJZktkjyYORu_PU3FvjYmEsQ8JZVyeSzMilr14_4QWJp3_PkLFqflZ_TAbYALB9326YKRzCzRXYrezrG8aw6LVmN4CIKyIjpVsMfcB7axjbRi23g0r66GNURZmQDvKeFafHzU8sNUIMVkQTwe8ga8jKEzpg85QxvkbZe6_BG5fmHbPx4WFdJUiWY1kJGVrVWtJMtbloCuIASszKyebyHaYhNoVM4jBVObyrlBOajKRm3XBI_jjUVCDuAxgR-nIqmkJxjVmae9d0xVgOCGDZUmw94LzGnwrHv2pFUV1Zj_jcxVw4wUTit4Ur08Df_CCob5YXbbR60Bya_dkC_WEnR4vLFYXYZ0Oc9NLm3Inz31F_o04OFtephbUpCZLO2ctk3nHOXJBsin-U1oxsvEfZb9W8NQjL9WD3c9xL5z7iFVdixvBxj2xPbGl1qvt_Rbr9xdlwwobsTZfn8SSjhvDUf4Qw0hssvYHfeVFgGbpkUPhz1ptr8XrDOm_phWd0at88',
-    tags: [],
-    target: '',
+        'pOroELdvJ7uzhtuqm6ACzrzJCx2FQcBL8UKiJIoYT_3kibFK-tarNAobO7GudmYBDBBwQMerJhv84iE0aNyAb-pisdkZ5iAOe6IxePGavAlXVVOLwOoG3IbnrSworaCokNmlmlI3_RzZRJtUOIC41i5KnllaHMpPBReEXrT3pjvBzJZktkjyYORu_PU3FvjYmEsQ8JZVyeSzMilr14_4QWJp3_PkLFqflZ_TAbYALB9326YKRzCzRXYrezrG8aw6LVmN4CIKyIjpVsMfcB7axjbRi23g0r66GNURZmQDvKeFafHzU8sNUIMVkQTwe8ga8jKEzpg85QxvkbZe6_BG5fmHbPx4WFdJUiWY1kJGVrVWtJMtbloCuIASszKyebyHaYhNoVM4jBVObyrlBOajKRm3XBI_jjUVCDuAxgR-nIqmkJxjVmae9d0xVgOCGDZUmw94LzGnwrHv2pFUV1Zj_jcxVw4wUTit4Ur08Df_CCob5YXbbR60Bya_dkC_WEnR4vLFYXYZ0Oc9NLm3Inz31F_o04OFtephbUpCZLO2ctk3nHOXJBsin-U1oxsvEfZb9W8NQjL9WD3c9xL5z7iFVdixvBxj2xPbGl1qvt_Rbr9xdlwwobsTZfn8SSjhvDUf4Qw0hssvYHfeVFgGbpkUPhz1ptr8XrDOm_phWd0at88',
     quantity: '0',
-    data: 'R2l0IEdvb2Q',
     reward: '0',
     signature:
-      'jE0ubYO4Wom3rFK6WFkBArQJvYEOCSTVBQTSpmi70LyvhbMLIgG1rRskP4YSDBNNJ2eNfgpJLLDq84wPLhGer9nGsAfz9J_DqkOerR7U6N0RJSek1GvxR4Xu0DnPoNsLHW3rfyJdeo5uw7wp29fFpoxbqBzOERPnWdvQ8fIvdun9YtGE4Beun6i-XQYPI6w9r7pIMJUmt1Vlu67pl6WHXTocslRAxfDsJZLOPUqxQhGLAO0oppn4GL_-hmN2ciJb5UR5c__jYhS4_E2Cf6gyMhrfvKKAFXC43lH0jGSTy9OGVjsSmbIxdVbZX6Z3wPQi-A6Hoing9De8utvImMjeqczls6dHcqehV40VBRBVgyu3csctQtSDzQq2Fo1x-BPcDAP0bVSzbS4bpNVTk5C78YxjUbuNLk6dpv43WddlxGYC3Hk1XE3psreUZmDoin_juYg5tYO25Jk3PQZfajX_KbupkHfk22LYNqas9Rp_4m3isHHhuwd4JsMqESvtTrW8Dmcy0wFhyILCfcXbTbIY_Tyy-KkelWhxmoGd9VOjNbe1WhmUKe9qrA85JJ_OLW0jOmj_h3gnZklBWs4WrPDFfsHQbZsS6mrfYqKHcFvnnj0eC20wPev8_XEtMYN_OTQDVwTGWaUXELDT0yK02dTj7K5QX_3BcQnsxIYNj0lVSM0',
+        'jE0ubYO4Wom3rFK6WFkBArQJvYEOCSTVBQTSpmi70LyvhbMLIgG1rRskP4YSDBNNJ2eNfgpJLLDq84wPLhGer9nGsAfz9J_DqkOerR7U6N0RJSek1GvxR4Xu0DnPoNsLHW3rfyJdeo5uw7wp29fFpoxbqBzOERPnWdvQ8fIvdun9YtGE4Beun6i-XQYPI6w9r7pIMJUmt1Vlu67pl6WHXTocslRAxfDsJZLOPUqxQhGLAO0oppn4GL_-hmN2ciJb5UR5c__jYhS4_E2Cf6gyMhrfvKKAFXC43lH0jGSTy9OGVjsSmbIxdVbZX6Z3wPQi-A6Hoing9De8utvImMjeqczls6dHcqehV40VBRBVgyu3csctQtSDzQq2Fo1x-BPcDAP0bVSzbS4bpNVTk5C78YxjUbuNLk6dpv43WddlxGYC3Hk1XE3psreUZmDoin_juYg5tYO25Jk3PQZfajX_KbupkHfk22LYNqas9Rp_4m3isHHhuwd4JsMqESvtTrW8Dmcy0wFhyILCfcXbTbIY_Tyy-KkelWhxmoGd9VOjNbe1WhmUKe9qrA85JJ_OLW0jOmj_h3gnZklBWs4WrPDFfsHQbZsS6mrfYqKHcFvnnj0eC20wPev8_XEtMYN_OTQDVwTGWaUXELDT0yK02dTj7K5QX_3BcQnsxIYNj0lVSM0',
+    tags: [],
+    target: ''
   });
 });
 
 test('Get Invalid Transaction', async () => {
   const tx = await arweaveDB.getTransactionById('123');
-  expect(tx).toBe(false);
+  expect(tx).toBe(null);
 });
 
-/** Blocks **/
+/*** Blocks ***/
 test('Add a block', async () => {
-  const block = {
+  const block: IArweaveBlock = {
+    block_size: 0,
+    diff: 28,
+    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
+    height: 0,
+    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
+    last_retarget: 1528491597,
     nonce: 'geRmRuWI-8sKx72hxOER597eUvaG1_steBL-5skqnCI',
     previous_block: '',
+    reward_addr: 'unclaimed',
+    reward_pool: 0,
+    tags: [],
     timestamp: 1528491597,
-    last_retarget: 1528491597,
-    diff: 28,
-    height: 0,
-    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
-    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
     txs: [
       'g6TUtTIi_rwlAHNuO6ACsQqIChWACugTPmZxaaJltDM',
       'cgU_TlXi5gJ7hShSBYsS4UVi-sLTtfFv1y1sy2nNhos',
@@ -374,11 +379,7 @@ test('Add a block', async () => {
       'C3auX8HXhc2dChmvSBUfgGyYynuAr6P3g0p7420GG78',
     ],
     wallet_list: 'GdumOKtW3-QA3XtnzXM1afSQ7USc-yrTX8Jg5qXx-jk',
-    reward_addr: 'unclaimed',
-    tags: [],
-    reward_pool: 0,
     weave_size: 0,
-    block_size: 0,
   };
   expect(await arweaveDB.addBlock(block)).toBe(true);
 });
@@ -386,14 +387,18 @@ test('Add a block', async () => {
 test('Get Block By ID', async () => {
   const block = await arweaveDB.getBlockById('7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE');
   expect(block).toStrictEqual({
+    block_size: 0,
+    diff: 28,
+    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
+    height: 0,
+    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
+    last_retarget: 1528491597,
     nonce: 'geRmRuWI-8sKx72hxOER597eUvaG1_steBL-5skqnCI',
     previous_block: '',
+    reward_addr: 'unclaimed',
+    reward_pool: 0,
+    tags: [],
     timestamp: 1528491597,
-    last_retarget: 1528491597,
-    diff: 28,
-    height: 0,
-    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
-    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
     txs: [
       'g6TUtTIi_rwlAHNuO6ACsQqIChWACugTPmZxaaJltDM',
       'cgU_TlXi5gJ7hShSBYsS4UVi-sLTtfFv1y1sy2nNhos',
@@ -711,25 +716,25 @@ test('Get Block By ID', async () => {
       'C3auX8HXhc2dChmvSBUfgGyYynuAr6P3g0p7420GG78',
     ],
     wallet_list: 'GdumOKtW3-QA3XtnzXM1afSQ7USc-yrTX8Jg5qXx-jk',
-    reward_addr: 'unclaimed',
-    tags: [],
-    reward_pool: 0,
     weave_size: 0,
-    block_size: 0,
   });
 });
 
 test('Get Block By Height', async () => {
   const block = await arweaveDB.getBlockByHeight(0);
   expect(block).toStrictEqual({
+    block_size: 0,
+    diff: 28,
+    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
+    height: 0,
+    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
+    last_retarget: 1528491597,
     nonce: 'geRmRuWI-8sKx72hxOER597eUvaG1_steBL-5skqnCI',
     previous_block: '',
+    reward_addr: 'unclaimed',
+    reward_pool: 0,
+    tags: [],
     timestamp: 1528491597,
-    last_retarget: 1528491597,
-    diff: 28,
-    height: 0,
-    hash: 'IrYS_hEV9MKnBonZxffcBL1TTOOhPkV-qClxt-kBZsM',
-    indep_hash: '7wIU7KolICAjClMlcZ38LZzshhI7xGkm2tDCJR7Wvhe3ESUo2-Z4-y0x1uaglRJE',
     txs: [
       'g6TUtTIi_rwlAHNuO6ACsQqIChWACugTPmZxaaJltDM',
       'cgU_TlXi5gJ7hShSBYsS4UVi-sLTtfFv1y1sy2nNhos',
@@ -1047,20 +1052,16 @@ test('Get Block By Height', async () => {
       'C3auX8HXhc2dChmvSBUfgGyYynuAr6P3g0p7420GG78',
     ],
     wallet_list: 'GdumOKtW3-QA3XtnzXM1afSQ7USc-yrTX8Jg5qXx-jk',
-    reward_addr: 'unclaimed',
-    tags: [],
-    reward_pool: 0,
     weave_size: 0,
-    block_size: 0,
   });
 });
 
 test('Get Invalid Block By ID', async () => {
   const block = await arweaveDB.getBlockById('123');
-  expect(block).toBe(false);
+  expect(block).toBe(null);
 });
 
 test('Get Invalid Block By Height', async () => {
   const block = await arweaveDB.getBlockByHeight(-1);
-  expect(block).toBe(false);
+  expect(block).toBe(null);
 });
