@@ -46,6 +46,6 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "fast-glob": "^2.2.7"
+    "fast-glob": "^3.0.0"
   }
 }
