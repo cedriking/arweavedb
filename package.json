@@ -1,12 +1,12 @@
 {
   "name": "arweavedb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Read and write data to the Arweave Blockchain Database",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "prepare": "npm run build",
