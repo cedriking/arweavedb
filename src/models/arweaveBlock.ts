@@ -10,7 +10,7 @@ export interface IArweaveBlock {
   txs: string[];
   wallet_list: string;
   reward_addr: string;
-  tags: Array<{ [key: string]: string }>;
+  tags: { [key: string]: string }[];
   reward_pool: number;
   weave_size: number;
   block_size: number;
