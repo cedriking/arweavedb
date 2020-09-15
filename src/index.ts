@@ -39,7 +39,7 @@ export class ArweaveDB {
       return this.blocksCacheById.get(blockId);
     }
 
-    const files: string[] = await fg(`${this.blocksFolder}/*${blockId}.json`);
+    const files: string[] = fg.sync([`${this.blocksFolder}/*${blockId}.json`]);
     if (files.length) {
       const block: IArweaveBlock = JSON.parse(fs.readFileSync(files[0], { encoding: 'utf8' }));
 
@@ -60,9 +60,10 @@ export class ArweaveDB {
       return this.blocksCacheByHeight.get(height);
     }
 
-    const files: string[] = await fg(`${this.blocksFolder}/${height}_*.json`);
+    const files: string[] = fg.sync([`${this.blocksFolder}/${height}_*.json`]);
+
     if (files.length) {
-      const block: IArweaveBlock = JSON.parse(await fs.readFileSync(files[0], { encoding: 'utf8' }));
+      const block: IArweaveBlock = JSON.parse(fs.readFileSync(files[0], { encoding: 'utf8' }));
 
       this.blocksCacheById.set(block.indep_hash, block);
       this.blocksCacheByHeight.set(height, block);
